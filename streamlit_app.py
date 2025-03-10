@@ -2,13 +2,7 @@
 import streamlit as st
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
-
-helpful_links = [
-    "https://docs.streamlit.io",
-    "https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit",
-    "https://github.com/Snowflake-Labs/snowflake-demo-streamlit",
-    "https://docs.snowflake.com/en/release-notes/streamlit-in-snowflake"
-]
+import requests
 
 # Write directly to the app
 st.title(":cup_with_straw: Customize Your Smoothie :cup_with_straw:")
@@ -22,8 +16,6 @@ st.write(
 
 cnx = st.connection("snowflake")
 session = cnx.session()
-
-
 name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your smoothie will be:',name_on_order)
 
@@ -58,6 +50,7 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered,'+name_on_order+'!', icon="✅")
 
-
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
 
     
